@@ -50,7 +50,7 @@ namespace listarray
             return array;
         }
 
-        public static void ArraytoList<T>(string[,] array, List<T> list)
+        public static List<T> ArraytoList<T>(string[,] array, List<T> list)
         {
             //check if the lenght of the titles array is equal to the number of properties in the object
             if (array.GetLength(1) != typeof(T).GetProperties().Length)
@@ -74,6 +74,8 @@ namespace listarray
                 }
                 list.Add(obj);
             }
+
+            return list;
         }
 
         public static void DrawTable(string[,] array)
@@ -143,5 +145,9 @@ namespace listarray
             }
 
         }
+
+
+
+        
     }
 }
