@@ -60,6 +60,7 @@ namespace listarray
 
             for (int i = 1; i < array.GetLength(0); i++)
             {
+
                 T obj = (T)Activator.CreateInstance(typeof(T));
 
                 for (int j = 0; j < array.GetLength(1); j++)
@@ -147,7 +148,33 @@ namespace listarray
         }
 
 
+        public static void ForeachAny<T>(List<T> list)
+        {
+            //if item is a class, you can access to the properties
+            if (typeof(T).IsClass)
+            {
+                foreach (var item in list)
+                {
+                    foreach (var property in item.GetType().GetProperties())
+                    {
+                        Console.WriteLine(property.Name + " " + property.GetValue(item));
+                    }
+                }
+            }
+            else
+            {
+                //if item is not a class, you can access to the properties
+                foreach (var item in list)
+                {
+                    foreach (var property in item.GetType().GetFields())
+                    {
+                        Console.WriteLine(property.Name + " " + property.GetValue(item));
+                    }
+                }
+            }
+        }
 
-        
+
+
     }
 }
