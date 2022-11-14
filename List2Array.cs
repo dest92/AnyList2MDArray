@@ -9,6 +9,14 @@ namespace listarray
 
             string[,] array = new string[list.Count + 1, titles.Length];
 
+            //check if the lenght of the titles array is equal to the number of properties in the object
+            if (titles.Length != typeof(T).GetProperties().Length)
+            {
+                throw new Exception("The number of titles is not equal to the number of properties in the object");
+            }
+
+
+
             for (int i = 0; i < titles.Length; i++)
             {
                 array[0, i] = titles[i];
@@ -41,6 +49,33 @@ namespace listarray
             }
             return array;
         }
+
+        public static void ArraytoList<T>(string[,] array, List<T> list)
+        {
+            //check if the lenght of the titles array is equal to the number of properties in the object
+            if (array.GetLength(1) != typeof(T).GetProperties().Length)
+            {
+                throw new Exception("The number of titles is not equal to the number of properties in the object");
+            }
+
+            for (int i = 1; i < array.GetLength(0); i++)
+            {
+                T obj = (T)Activator.CreateInstance(typeof(T));
+
+                for (int j = 0; j < array.GetLength(1); j++)
+                {
+                    for (int k = 0; k < obj.GetType().GetProperties().Length; k++)
+                    {
+                        if (obj.GetType().GetProperties()[k].Name == array[0, j])
+                        {
+                            obj.GetType().GetProperties()[k].SetValue(obj, array[i, j]);
+                        }
+                    }
+                }
+                list.Add(obj);
+            }
+        }
+
         public static void DrawTable(string[,] array)
         {
             //Draw a table with borders, columns, rows and titles
@@ -53,7 +88,7 @@ namespace listarray
                 columnWidth[i] = array[0, i].Length;
             }
 
-        
+
             for (int i = 1; i < array.GetLength(0); i++)
             {
                 for (int j = 0; j < array.GetLength(1); j++)
