@@ -150,6 +150,16 @@ namespace listarray
 
         public static void ForeachAny<T>(List<T> list)
         {
+
+            if (list == null)
+            {
+                throw new Exception("List is null");
+            }
+
+            //if the list is not empty
+
+
+
             //if item is a class, you can access to the properties
             if (typeof(T).IsClass)
             {
@@ -166,7 +176,46 @@ namespace listarray
                 //if item is not a class, you can access to the properties
                 foreach (var item in list)
                 {
-                    foreach (var property in item.GetType().GetFields())
+                    Console.WriteLine(item);
+
+                }
+            }
+        }
+
+
+        public static void GetPropertiesOfList<T>(List<T> list)
+        {
+            //get the properties of the list
+
+            Console.WriteLine("Properties, values or both? (1/2/3)");
+
+            string answer = Console.ReadLine();
+
+            if (answer == "1")
+            {
+                foreach (var item in list)
+                {
+                    foreach (var property in item.GetType().GetProperties())
+                    {
+                        Console.WriteLine(property.Name);
+                    }
+                }
+            }
+            else if (answer == "2")
+            {
+                foreach (var item in list)
+                {
+                    foreach (var property in item.GetType().GetProperties())
+                    {
+                        Console.WriteLine(property.GetValue(item));
+                    }
+                }
+            }
+            else if (answer == "3")
+            {
+                foreach (var item in list)
+                {
+                    foreach (var property in item.GetType().GetProperties())
                     {
                         Console.WriteLine(property.Name + " " + property.GetValue(item));
                     }
